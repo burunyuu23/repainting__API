@@ -1,6 +1,7 @@
 package com.example.therepaintinggameweb.controllers;
 
 import com.example.therepaintinggameweb.dtos.requests.GameStepRequestDTO;
+import com.example.therepaintinggameweb.dtos.responses.GameStartResponseDTO;
 import com.example.therepaintinggameweb.dtos.responses.GameStepResponseDTO;
 import com.example.therepaintinggameweb.services.GameService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -44,15 +46,12 @@ public class GameController {
                             ]
                             }""")
             ))
-    public String startGame() {
-        return service.getGame().replace("\n", "<br>")
-                .toLowerCase()
-                .replace("value: ", "<h1 style=\"background-color: ")
-                .replace("},", ";\">HI!!!</h1>").replace("}],", ";\">HI!!!</h1>");
+    public ResponseEntity<GameStartResponseDTO> startGame() {
+        return ResponseEntity.ok(service.getGame());
     }
 
     @GetMapping("/step/{colorId}")
-    public void stepGame(@PathVariable int colorId) {
-//        service
+    public ResponseEntity<GameStepResponseDTO> stepGame(@PathVariable int colorId) {
+        return ResponseEntity.ok(service.stepGame(colorId));
     }
 }
