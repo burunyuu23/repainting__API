@@ -4,17 +4,18 @@ import random
 
 class Game:
     MAX_ROUNDS = 22
+    FIELD_SIZE = 12
 
     STATUS = {
         "PLAYING": 0, 'LOSE': 1, 'WON': 2
     }
     COLORS = {
-        1: '#a5260a',  # Бисмарк-фуриозо
-        2: '#f36223',  # Морковный
-        3: '#ff9218',  # Последний вздох Жако
-        4: '#3caa3c',  # Цвет влюблённой жабы
-        5: '#1fcecb',  # Цвет яиц странствующего дрозда
-        6: '#7442c8'   # Пурпурное сердце
+        0: '#a5260a',  # Бисмарк-фуриозо
+        1: '#f36223',  # Морковный
+        2: '#ff9218',  # Последний вздох Жако
+        3: '#3caa3c',  # Цвет влюблённой жабы
+        4: '#1fcecb',  # Цвет яиц странствующего дрозда
+        5: '#7442c8'   # Пурпурное сердце
     }
     def set_color_by_id(self, color_id, hex_color):
         Game.COLORS[color_id] = hex_color
@@ -40,10 +41,10 @@ class Game:
         return color_entries
 
     def __init__(self):
-        self.map = [[Cell() for i in range(12)] for j in range(12)]
+        self.map = [[Cell() for i in range(Game.FIELD_SIZE)] for j in range(Game.FIELD_SIZE)]
         self.main_cell = self.map[0][0]
         self.main_cell.captured(self.main_cell.value)
-        self._status = Game.STATUS["PLAYING"]
+        self.status = Game.STATUS["PLAYING"]
         self.round = 0
 
         self.best = 23
@@ -68,10 +69,10 @@ class Game:
                 self.status = Game.STATUS["LOSE"]
 
     def restart(self):
-        # self.map = [[Cell(color=2) for i in range(12)] for j in range(12)]
+        # self.map = [[Cell(color=2) for i in range(Game.FIELD_SIZE)] for j in range(Game.FIELD_SIZE)]
         # self.map[0][0] = Cell(color=1)
 
-        self.map = [[Cell() for i in range(12)] for j in range(12)]
+        self.map = [[Cell() for i in range(Game.FIELD_SIZE)] for j in range(Game.FIELD_SIZE)]
 
         self.main_cell = self.map[0][0]
         self.main_cell.captured(self.main_cell.value)
@@ -80,7 +81,7 @@ class Game:
 
     def map_capture(self):
         old_map = self.map
-        reached_map = [[False for i in range(12)] for i in range(12)]
+        reached_map = [[False for i in range(Game.FIELD_SIZE)] for i in range(Game.FIELD_SIZE)]
         reached_map[0][0] = False
 
         max_i = len(old_map)
@@ -138,11 +139,9 @@ class Game:
         return str(self.map)
 
 class Cell:
-    def __init__(self, color=None):
-        if color is None:
-            self.value = random.randint(0, len(Game.COLORS) - 1)
-        else:
-            self.value = color
+    def __init__(self):
+        self.value = random.randint(0, len(Game.COLORS) - 1)
+        print(self.value)
         self.is_captured = False
 
     def captured(self, value):
