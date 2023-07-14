@@ -44,15 +44,15 @@ public class GameWrapperFactory {
                 colors[i] = new Color(id, hexColor);
             }
 
-            System.out.println(Integer.parseInt(game.__getattr__("_status").toString()));
+            System.out.println(Integer.parseInt(game.__getattr__("status").toString()));
             System.out.println(Integer.parseInt(gameClass.__getattr__("MAX_ROUNDS").toString()));
 
             System.out.println(game.invoke("__str__"));
             return new GameWrapper(game,
                     colors,
-                    GameStatus.getStatus(Integer.parseInt(game.__getattr__("_status").toString())),
-                    Integer.parseInt(game.__getattr__("_status").toString()),
-                    Integer.parseInt(gameClass.__getattr__("MAX_ROUNDS").toString()));
+                    GameStatus.getStatus(Integer.parseInt(game.__getattr__("status").toString())),
+                    Integer.parseInt(gameClass.__getattr__("MAX_ROUNDS").toString()),
+                    Integer.parseInt(gameClass.__getattr__("FIELD_SIZE").toString()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

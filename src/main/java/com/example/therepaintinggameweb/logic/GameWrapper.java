@@ -8,18 +8,17 @@ import org.python.core.PyObject;
 @AllArgsConstructor
 public class GameWrapper {
     private final PyObject game;
+
     private final Color[] colors;
     private GameStatus gameStatus;
     private final int maxRounds;
     private final int fieldSize;
 
-    public void init(){
-
-    }
 
     @Override
     public String toString() {
-        return game.invoke("__str__").toString();
+        return String.format("<div>STATUS: %s, maxRound: %d, fieldSize: %d</div> <div>%s</div>" ,
+                gameStatus, maxRounds, fieldSize, game.invoke("__str__").toString());
     }
 
 //    public void changeColor(int id, String hexColor){
