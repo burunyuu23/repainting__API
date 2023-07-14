@@ -141,7 +141,6 @@ class Game:
 class Cell:
     def __init__(self):
         self.value = random.randint(0, len(Game.COLORS) - 1)
-        print(self.value)
         self.is_captured = False
 
     def captured(self, value):
