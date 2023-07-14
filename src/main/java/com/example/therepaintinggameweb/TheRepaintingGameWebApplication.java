@@ -1,5 +1,12 @@
 package com.example.therepaintinggameweb;
 
+import com.example.therepaintinggameweb.dtos.responses.ErrorResponseDTO;
+import com.example.therepaintinggameweb.exceptions.AppException;
+import com.example.therepaintinggameweb.logic.GameWrapper;
+import com.example.therepaintinggameweb.logic.GameWrapperFactory;
+import com.google.gson.Gson;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.python.util.PythonInterpreter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,5 +30,33 @@ public class TheRepaintingGameWebApplication {
         interpreter.exec("print(sys.path)");
         return interpreter;
     }
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+
+        TypeMap<AppException, ErrorResponseDTO> typeMapException = modelMapper.createTypeMap(AppException.class, ErrorResponseDTO.class);
+        typeMapException.addMappings(mapper -> {
+            mapper.map(AppException::getMessage, ErrorResponseDTO::setMessage);
+            mapper.map(AppException::getStatus, ErrorResponseDTO::setStatus);
+        });
+
+        return modelMapper;
+    }
+
+    @Bean
+    public Gson gson() {
+        return new Gson();
+    }
+
+    @Bean
+    public GameWrapperFactory gameWrapperFactory(PythonInterpreter pythonInterpreter) {
+        return new GameWrapperFactory(pythonInterpreter);
+    }
+
+    @Bean
+    public GameWrapper gameWrapper(GameWrapperFactory gameWrapperFactory) {
+        return gameWrapperFactory.createGameWrapper();
+    }
+
 
 }
