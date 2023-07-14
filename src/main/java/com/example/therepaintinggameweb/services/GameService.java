@@ -1,5 +1,6 @@
 package com.example.therepaintinggameweb.services;
 
+import com.example.therepaintinggameweb.logic.GameWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.python.core.*;
@@ -14,25 +15,13 @@ import java.io.InputStream;
 @Data
 public class GameService {
 
-    private final PythonInterpreter pythonInterpreter;
+    private final GameWrapper gameWrapper;
 
     public String getGame() {
-        String result = "";
+        return gameWrapper.toString();
+    }
 
-        try (PythonInterpreter pyInterp = new PythonInterpreter();
-             InputStream initInputStream = this.getClass().getClassLoader().getResourceAsStream("python/game.py")
-        ) {
-            pyInterp.exec("print('Hello Python World!')");
-            pyInterp.execfile(initInputStream);
-            PyClass gameClass = (PyClass) pyInterp.get("Game");
-            PyObject game = gameClass.__call__();
-            pyInterp.exec("game = Game()");
-            pyInterp.exec("print(game.map)");
-            result = String.valueOf(game.__str__());
-            System.out.println(result);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return result;
+    public String stepGame(int colorId) {
+        return "";
     }
 }
