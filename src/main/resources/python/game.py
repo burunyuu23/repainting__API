@@ -1,15 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
 
-COLORS = {
-    1: '#a5260a',  # Бисмарк-фуриозо
-    2: '#f36223',  # Морковный
-    3: '#ff9218',  # Последний вздох Жако
-    4: '#3caa3c',  # Цвет влюблённой жабы
-    5: '#1fcecb',  # Цвет яиц странствующего дрозда
-    6: '#7442c8'   # Пурпурное сердце
-}
-
 
 class Game:
     MAX_ROUNDS = 22
@@ -17,6 +8,36 @@ class Game:
     STATUS = {
         "PLAYING": 0, 'LOSE': 1, 'WON': 2
     }
+    COLORS = {
+        1: '#a5260a',  # Бисмарк-фуриозо
+        2: '#f36223',  # Морковный
+        3: '#ff9218',  # Последний вздох Жако
+        4: '#3caa3c',  # Цвет влюблённой жабы
+        5: '#1fcecb',  # Цвет яиц странствующего дрозда
+        6: '#7442c8'   # Пурпурное сердце
+    }
+    def set_color_by_id(self, color_id, hex_color):
+        Game.COLORS[color_id] = hex_color
+
+    class ColorEntry:
+        def __init__(self, id, hex_color):
+            self._id = id
+            self._hex_color = hex_color
+
+        @property
+        def id(self):
+            return self._id
+        @property
+        def hex_color(self):
+            return self._hex_color
+
+    @staticmethod
+    def convert_colors():
+        color_entries = []
+        for id, hex_color in Game.COLORS.items():
+            color_entry = Game.ColorEntry(id, hex_color)
+            color_entries.append(color_entry)
+        return color_entries
 
     def __init__(self):
         self.map = [[Cell() for i in range(12)] for j in range(12)]
@@ -27,14 +48,6 @@ class Game:
 
         self.best = 23
         self.best_text = '∞'
-
-    @property
-    def status(self):
-        return self._status
-
-    @status.setter
-    def status(self, value):
-        self._status = value
 
     def step(self, num):
         if self.main_cell.value != num and self.status == Game.STATUS["PLAYING"]:
@@ -127,7 +140,7 @@ class Game:
 class Cell:
     def __init__(self, color=None):
         if color is None:
-            self.value = random.randint(1, len(COLORS) + 1)
+            self.value = random.randint(0, len(Game.COLORS) - 1)
         else:
             self.value = color
         self.is_captured = False
@@ -143,7 +156,7 @@ class Cell:
         return self.__str__()
 
     def __str__(self):
-        return "{is_captured: " + str(self.is_captured) + "; value: " + str(self.value) + "}"
+        return "{captured: " + str(self.is_captured) + "; value: " + str(Game.COLORS.get(self.value)) + "}"
 
     def __eq__(self, other):
         return self.value == other.value
