@@ -52,7 +52,9 @@ public class GameWrapperFactory {
                     colors,
                     GameStatus.getStatus(Integer.parseInt(game.__getattr__("status").toString())),
                     Integer.parseInt(gameClass.__getattr__("MAX_ROUNDS").toString()),
-                    Integer.parseInt(gameClass.__getattr__("FIELD_SIZE").toString()));
+                    Integer.parseInt(gameClass.__getattr__("FIELD_SIZE").toString()),
+                    Integer.parseInt(game.__getattr__("round").toString())
+                    );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
