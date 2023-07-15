@@ -12,7 +12,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/repaint-game")
@@ -21,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class GameController {
     private final GameService service;
 
-    @GetMapping("/start")
+    @GetMapping("/game/start")
     @Operation(summary = "Started game")
     @ApiResponse(
             responseCode = "200",
@@ -50,8 +55,19 @@ public class GameController {
         return ResponseEntity.ok(service.getGame());
     }
 
-    @GetMapping("/step/{colorId}")
+    @GetMapping("/game/step/{colorId}")
     public ResponseEntity<GameStepResponseDTO> stepGame(@PathVariable int colorId) {
         return ResponseEntity.ok(service.stepGame(colorId));
+    }
+
+    @GetMapping("/t")
+    public Authentication whoAmI() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        return context.getAuthentication();
+    }
+
+    @GetMapping("/resource")
+    public ResponseEntity<String> administratorReadRes(){
+        return ResponseEntity.of(Optional.of("Resource for users with fancy access attribute"));
     }
 }
