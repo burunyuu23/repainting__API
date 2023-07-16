@@ -1,9 +1,10 @@
 package com.example.therepaintinggameweb.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,6 +20,8 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
@@ -28,10 +31,7 @@ public class SecurityConfig {
     private String frontendUrl;
 
     private final CorsConfigurationSource corsConfigurationSource;
-
-    public SecurityConfig(CorsConfigurationSource corsConfigurationSource) {
-        this.corsConfigurationSource = corsConfigurationSource;
-    }
+    private final JwtAuthenticationConverter jwtAuthenticationConverter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,29 +43,37 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
-                                .requestMatchers("/repaint-game/game/**")
+                                .requestMatchers("/game/**","/swagger-ui/**", "/api-docs/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated());
 
         http
-                .oauth2ResourceServer((rs) ->
-                        rs.jwt((jwt) ->jwt.decoder(jwtDecoder()))
+                .oauth2ResourceServer((resourceServerConfigurer) ->
+                        resourceServerConfigurer.jwt((jwtConfigurer) -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter))
                 );
 
         http
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
-                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        httpSecuritySessionManagementConfigurer
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
+
     @Bean
     public JwtDecoder jwtDecoder() {
         // return your JWTdecoder
         // Use NimbusJwtDecoder to decode the JWT
         OAuth2TokenValidator<Jwt> jwtValidator = JwtValidators.createDefault();
-        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(jwkUri)
-                .build();
+
+        // Создайте экземпляр NimbusJwtDecoder с указанием URI набора JWK
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(jwkUri).build();
         jwtDecoder.setJwtValidator(jwtValidator);
+
+        // Добавьте валидатор для проверки наличия ролей в токене
+//        jwtValidator = new DelegatingOAuth2TokenValidator<>(jwtValidator, customJwtValidator);
+//        jwtDecoder.setJwtValidator(jwtValidator);
+
         return jwtDecoder;
     }
 
