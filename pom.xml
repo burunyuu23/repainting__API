@@ -18,6 +18,8 @@
         <openapi.version>2.1.0</openapi.version>
         <jython.version>2.7.3</jython.version>
         <modelmapper.version>3.1.1</modelmapper.version>
+        <spring-security-test.version>6.1.1</spring-security-test.version>
+        <spring-security-oauth2-jose.version>6.1.1</spring-security-oauth2-jose.version>
     </properties>
     <dependencies><!-- https://mvnrepository.com/artifact/org.python/jython -->
         <dependency>
@@ -51,9 +53,26 @@
         <!--            <artifactId>postgresql</artifactId>-->
         <!--            <scope>runtime</scope>-->
         <!--        </dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-jose -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+            <version>${spring-security-oauth2-jose.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-resource-server -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <dependency>
@@ -72,6 +91,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring-security-test.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -79,6 +106,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${project.parent.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>
