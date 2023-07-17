@@ -7,12 +7,7 @@ python:
   game-path: python/game.py
 
 
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: {KEYCLOAK_URL}/realms/{REALM}/protocol/openid-connect/certs
+#spring:
 #  datasource:
 #    driver-class-name: org.postgresql.Driver
 #    url: jdbc:postgresql://localhost:5432/danilkk_db

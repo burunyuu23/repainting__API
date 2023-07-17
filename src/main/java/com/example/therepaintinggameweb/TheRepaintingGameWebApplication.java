@@ -6,19 +6,16 @@ import com.example.therepaintinggameweb.dtos.responses.GameStartResponseDTO;
 import com.example.therepaintinggameweb.exceptions.AppException;
 import com.example.therepaintinggameweb.logic.GameWrapper;
 import com.example.therepaintinggameweb.logic.GameWrapperFactory;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.python.util.PythonInterpreter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Properties;
 
 @SpringBootApplication
-@EnableWebMvc
 public class TheRepaintingGameWebApplication {
 
     public static void main(String[] args) {
