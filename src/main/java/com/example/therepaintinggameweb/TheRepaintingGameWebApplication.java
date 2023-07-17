@@ -1,8 +1,6 @@
 package com.example.therepaintinggameweb;
 
-import com.example.therepaintinggameweb.dtos.responses.CellResponseDTO;
 import com.example.therepaintinggameweb.dtos.responses.ErrorResponseDTO;
-import com.example.therepaintinggameweb.dtos.responses.GameStartResponseDTO;
 import com.example.therepaintinggameweb.exceptions.AppException;
 import com.example.therepaintinggameweb.logic.GameWrapper;
 import com.example.therepaintinggameweb.logic.GameWrapperFactory;
@@ -12,6 +10,7 @@ import org.python.util.PythonInterpreter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
 import java.util.Properties;
 
@@ -53,6 +52,5 @@ public class TheRepaintingGameWebApplication {
     public GameWrapper gameWrapper(GameWrapperFactory gameWrapperFactory) {
         return gameWrapperFactory.createGameWrapper();
     }
-
 
 }
