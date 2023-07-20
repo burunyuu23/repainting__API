@@ -2,6 +2,7 @@ package com.example.therepaintinggameweb.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,9 +27,7 @@ public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthen
     private String resourceId;
 
     @Override
-    public AbstractAuthenticationToken convert(Jwt jwt) {
-        System.out.println(jwt);
-
+    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
         Collection<GrantedAuthority> authorities = Stream
                 .concat(jwtGrantedAuthoritiesConverter.convert(jwt).stream(), extractResourceRoles(jwt).stream())
                 .toList();
@@ -55,7 +54,6 @@ public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthen
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
 
-        System.out.println(roles);
         return roles;
     }
 }
