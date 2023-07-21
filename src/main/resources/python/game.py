@@ -17,7 +17,8 @@ class Game:
         4: '#1fcecb',  # Цвет яиц странствующего дрозда
         5: '#7442c8'   # Пурпурное сердце
     }
-    def set_color_by_id(self, color_id, hex_color):
+    @staticmethod
+    def set_color_by_id(color_id, hex_color):
         Game.COLORS[color_id] = hex_color
 
     class ColorEntry:
@@ -51,13 +52,13 @@ class Game:
         self.best_text = '∞'
 
     def step(self, num):
-        if self.main_cell.value != num and self.status == Game.STATUS["PLAYING"]:
+        if not self.color_repeated(num) and self.status == Game.STATUS["PLAYING"]:
             self.map[0][0].change_value(num)
             self.map = self.map_capture()
             self.round += 1
             # self.status = Game.STATUS["WON"]
 
-            if self.check_map:
+            if self.check_map():
                 self.status = Game.STATUS["WON"]
 
             if self.status == Game.STATUS["WON"]:
@@ -67,6 +68,9 @@ class Game:
 
             if self.status != Game.STATUS["WON"] and self.round == Game.MAX_ROUNDS:
                 self.status = Game.STATUS["LOSE"]
+
+    def color_repeated(self, color):
+        return self.main_cell.value == color
 
     def restart(self):
         # self.map = [[Cell(color=2) for i in range(Game.FIELD_SIZE)] for j in range(Game.FIELD_SIZE)]
@@ -123,12 +127,11 @@ class Game:
 
         return old_map
 
-    @property
     def check_map(self):
         main_cell = self.map[0][0]
         for line in self.map:
             for cell in line:
-                if cell != main_cell:
+                if cell.value != main_cell.value:
                     return False
         return True
 
