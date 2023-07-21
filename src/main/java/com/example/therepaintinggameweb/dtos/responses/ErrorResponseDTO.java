@@ -1,10 +1,14 @@
 package com.example.therepaintinggameweb.dtos.responses;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(description = "Response with error")
 public class ErrorResponseDTO {
     @Schema(
@@ -16,9 +20,4 @@ public class ErrorResponseDTO {
             description = "Error status",
             example = "404 NOT_FOUND")
     private HttpStatus status;
-
-    public ErrorResponseDTO(String message, HttpStatus status) {
-        this.message = message;
-        this.status = status;
-    }
 }
