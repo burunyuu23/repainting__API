@@ -1,9 +1,13 @@
 package com.example.therepaintinggameweb;
 
 import com.example.therepaintinggameweb.dtos.responses.ErrorResponseDTO;
+import com.example.therepaintinggameweb.entities.User;
 import com.example.therepaintinggameweb.exceptions.AppException;
 import com.example.therepaintinggameweb.logic.GameWrapper;
 import com.example.therepaintinggameweb.logic.GameWrapperFactory;
+import com.example.therepaintinggameweb.repos.UserRepo;
+import com.example.therepaintinggameweb.utils.UserUtils;
+import com.nimbusds.jose.shaded.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.python.util.PythonInterpreter;
@@ -12,7 +16,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
+import java.util.HashMap;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SpringBootApplication
 public class TheRepaintingGameWebApplication {
@@ -29,6 +35,11 @@ public class TheRepaintingGameWebApplication {
         interpreter.exec("print(sys.version_info)");
         interpreter.exec("print(sys.path)");
         return interpreter;
+    }
+
+    @Bean
+    public Gson gson(){
+        return new Gson();
     }
     @Bean
     public ModelMapper modelMapper() {
@@ -49,8 +60,8 @@ public class TheRepaintingGameWebApplication {
     }
 
     @Bean
-    public GameWrapper gameWrapper(GameWrapperFactory gameWrapperFactory) {
-        return gameWrapperFactory.createGameWrapper();
+    public ConcurrentHashMap<String, GameWrapper> gameWrappers() {
+        return new ConcurrentHashMap<>();
     }
 
 }
