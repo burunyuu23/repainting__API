@@ -39,13 +39,19 @@ public class GameWrapper {
         stepMethod.__call__(new PyObject[]{stepColorId});
     }
 
+    public boolean colorRepeated(int colorId) {
+        PyObject colorRepeatedMethod = game.__getattr__("color_repeated");
+        PyObject color = Py.newInteger(colorId);
+        return (boolean) colorRepeatedMethod.__call__(new PyObject[]{color}).__tojava__(boolean.class);
+    }
+
     public void restart(){
         game.invoke("restart");
     }
 
     public void updateState() {
-        setGameStatus(GameStatus.getStatus(Integer.parseInt(game.__getattr__("status").toString())));
-        setCurrentRound(Integer.parseInt(game.__getattr__("round").toString()));
+        this.setGameStatus(GameStatus.getStatus(Integer.parseInt(game.__getattr__("status").toString())));
+        this.setCurrentRound(Integer.parseInt(game.__getattr__("round").toString()));
     }
 
     @Override
