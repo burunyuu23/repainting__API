@@ -1,5 +1,6 @@
 package com.example.therepaintinggameweb.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class User {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_palettes",
@@ -24,7 +26,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "palettes_id")
     )
     private List<Palettes> palettes = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "whoAddUser", cascade = CascadeType.ALL)
     private List<Friendship> friendships = new ArrayList<>();
 

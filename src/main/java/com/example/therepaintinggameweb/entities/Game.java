@@ -1,26 +1,17 @@
 package com.example.therepaintinggameweb.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Entity
-@Table(name = "game")
-public class Game {
+@Data
+@MappedSuperclass
+public abstract class Game {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_id")
-    private Long gameId;
-
-    @OneToMany(
-            mappedBy = "game",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<GameStory> gameStories = new ArrayList<>();
+    private String gameId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -30,17 +21,13 @@ public class Game {
     @JoinColumn(name = "palettes_id")
     private Palettes palettes;
 
-    @Column(name = "map", columnDefinition = "jsonb")
+    @Column(name = "map", columnDefinition = "::json")
     private String map;
 
-    @Column(name = "is_rating")
-    private boolean isRating;
     @Column(name = "is_end")
     private boolean isEnd;
     @Column(name = "is_win")
     private Boolean isWin;
-    @Column(name = "rating")
-    private Integer rating;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -50,4 +37,3 @@ public class Game {
         this.startTime = LocalDateTime.now();
     }
 }
-

@@ -1,5 +1,6 @@
 package com.example.therepaintinggameweb.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,6 +22,7 @@ public class Palettes {
     @JoinColumn(name = "created_user_id")
     private String createdUserId;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "palettes")
     private List<User> users = new ArrayList<>();
 }

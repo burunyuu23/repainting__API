@@ -1,23 +1,19 @@
 package com.example.therepaintinggameweb.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "game_story")
-public class GameStory {
-
+@Data
+@MappedSuperclass
+public abstract class GameStory {
     @EmbeddedId
     private GameStoryId id;
 
-    @ManyToOne
-    @MapsId("gameId")
-    @JoinColumn(name = "game_id")
-    private Game game;
-
-    @Column(name = "round")
-    private int round;
+    @Column(name = "round_map", columnDefinition = "::json")
+    private String roundMap;
 
     @Column(name = "chosen_color")
     private int chosenColor;
@@ -25,9 +21,12 @@ public class GameStory {
     @Column(name = "step_time")
     private LocalDateTime stepTime;
 
+    public GameStory() {
+        this.stepTime = LocalDateTime.now();
+    }
+
     @PrePersist
     public void prePersist() {
         this.stepTime = LocalDateTime.now();
     }
 }
-
