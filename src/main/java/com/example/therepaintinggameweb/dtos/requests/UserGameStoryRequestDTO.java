@@ -3,7 +3,7 @@ package com.example.therepaintinggameweb.dtos.requests;
 import lombok.Data;
 
 @Data
-public class GameStepRequestDTO {
+public class UserGameStoryRequestDTO {
     private String gameId;
-    private int colorId;
+    private String userId;
 }

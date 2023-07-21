@@ -1,4 +1,4 @@
-package com.example.therepaintinggameweb.dtos.responses;
+package com.example.therepaintinggameweb.dtos.responses.game;
 
 import com.example.therepaintinggameweb.logic.CellWrapper;
 import com.example.therepaintinggameweb.logic.Color;
@@ -9,8 +9,9 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 public class GameStartResponseDTO {
-    private CellWrapper[][] map;
-    private Color[] colors;
-    private int maxRounds;
-    private int fieldSize;
+    private String gameId;
+    protected CellWrapper[][] map;
+    protected Color[] colors;
+    protected int maxRounds;
+    protected int fieldSize;
 }

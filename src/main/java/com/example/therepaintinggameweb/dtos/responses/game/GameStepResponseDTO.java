@@ -1,11 +1,11 @@
-package com.example.therepaintinggameweb.dtos.responses;
+package com.example.therepaintinggameweb.dtos.responses.game;
 
-import com.example.therepaintinggameweb.logic.GameStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class GameStepResponseDTO extends GameStartResponseDTO{
-    private int currentRound;
+    protected int currentRound;
+    private boolean isEnd;
 }
