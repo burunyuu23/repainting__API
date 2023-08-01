@@ -35,4 +35,4 @@ build/
 ### Jython ###
 .jython_cache/
 
-logs/
+logs
