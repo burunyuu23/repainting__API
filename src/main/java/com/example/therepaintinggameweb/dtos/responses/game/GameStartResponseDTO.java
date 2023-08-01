@@ -12,6 +12,6 @@ public class GameStartResponseDTO {
     private String gameId;
     protected CellWrapper[][] map;
     protected Color[] colors;
-    protected int maxRounds;
-    protected int fieldSize;
+    protected long maxRounds = 22;
+    protected long fieldSize = 12;
 }

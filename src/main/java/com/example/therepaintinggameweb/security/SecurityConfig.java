@@ -16,6 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.management.relation.Role;
 import java.util.Arrays;
 
 @Configuration
@@ -43,8 +44,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
-                                .requestMatchers("/game/**","/swagger-ui/**", "/api-docs/**")
-                                .permitAll()
+                                .requestMatchers("/no-auth/**").permitAll()
+                                .requestMatchers("/swagger-ui/**", "/api-docs/**").hasRole("admin")
                                 .anyRequest()
                                 .authenticated());
 

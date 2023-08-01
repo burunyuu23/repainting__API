@@ -17,10 +17,7 @@ import com.example.therepaintinggameweb.repos.UserRepo;
 import com.example.therepaintinggameweb.utils.GameSessionManager;
 import com.example.therepaintinggameweb.utils.UserUtils;
 import com.nimbusds.jose.shaded.gson.Gson;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.modelmapper.ModelMapper;
@@ -30,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Data
 public abstract class GameService {
@@ -54,6 +50,10 @@ public abstract class GameService {
     }
 
     public GameStartResponseDTO startGame(GameStartRequestDTO gameStartRequestDTO) {
+
+        if (gameStartRequestDTO.getMaxRounds() < 1 || gameStartRequestDTO.getFieldSize() < 2)
+            throw new BadGameParamsException();
+
         Color[] palettes = palettesSetup(gameStartRequestDTO.getPaletteId());
 
         GameWrapper gameWrapper = gameWrapperFactory.createGameWrapper(palettes,
@@ -75,7 +75,6 @@ public abstract class GameService {
     protected abstract Game gameSave(String gameId, GameWrapper gameWrapper, GameStartRequestDTO gameStartRequestDTO);
 
     public GameStepResponseDTO stepGame(GameStepRequestDTO gameStepRequestDTO) {
-        System.out.println(gameStepRequestDTO);
         String gameId = gameStepRequestDTO.getGameId();
         int colorId = gameStepRequestDTO.getColorId();
 
@@ -85,7 +84,6 @@ public abstract class GameService {
         if (gameId == null)
             throw new GameNotFoundException();
 
-        System.out.println("HI!");
         GameWrapper gameWrapper;
 
         try {
@@ -116,8 +114,6 @@ public abstract class GameService {
 
             if (gameWrapper.getGameStatus() != GameStatus.PLAYING)
                 endGame(gameWrapper, game);
-
-            gameStepResponseDTO.setEnd(game.isEnd());
         }
 
         return gameStepResponseDTO;

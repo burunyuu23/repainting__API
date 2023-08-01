@@ -49,8 +49,6 @@ public class NonRatingGameService extends GameService {
         nonRatingGame.setEnd(false);
         nonRatingGameRepo.save(nonRatingGame);
 
-        System.out.println(UserUtils.isGuest());
-
         return nonRatingGame;
     }
 
