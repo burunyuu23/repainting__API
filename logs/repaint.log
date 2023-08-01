@@ -1057,3 +1057,6 @@ java.lang.NullPointerException: Cannot invoke "java.lang.Long.longValue()" becau
 	at java.base/java.lang.Thread.run(Thread.java:1623) ~[na:na]
 
 2023-08-01T21:02:58.454+03:00  INFO 40204 --- [http-nio-5000-exec-3] c.e.t.utils.GameSessionManager           : {2a418c0f-248e-4651-a9c3-0e4c76ea9631=GameSessionManager.GameSession(gameWrapper=STATUS: GameStatus.PLAYING(status=0), maxRound: 22, fieldSize: 2 map:[[{captured: True; value: #7442c8}, {captured: False; value: #ff9218}], [{captured: False; value: #f36223}, {captured: False; value: #a5260a}]], removalTask=java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@43a50242[Not completed, task = java.util.concurrent.Executors$RunnableAdapter@f8f0799[Wrapped task = com.example.therepaintinggameweb.utils.GameSessionManager$$Lambda$1699/0x0000000801f162b8@51d91c09]])}
+2023-08-01T21:57:52.144+03:00  INFO 40204 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-08-01T21:57:52.147+03:00  INFO 40204 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-08-01T21:57:52.150+03:00  INFO 40204 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
