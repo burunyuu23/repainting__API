@@ -6,6 +6,7 @@ import com.example.therepaintinggameweb.exceptions.AppException;
 import com.example.therepaintinggameweb.logic.GameWrapper;
 import com.example.therepaintinggameweb.logic.GameWrapperFactory;
 import com.example.therepaintinggameweb.repos.UserRepo;
+import com.example.therepaintinggameweb.utils.GameSessionManager;
 import com.example.therepaintinggameweb.utils.UserUtils;
 import com.nimbusds.jose.shaded.gson.Gson;
 import org.modelmapper.ModelMapper;
@@ -60,8 +61,8 @@ public class TheRepaintingGameWebApplication {
     }
 
     @Bean
-    public ConcurrentHashMap<String, GameWrapper> gameWrappers() {
-        return new ConcurrentHashMap<>();
+    public GameSessionManager gameSessionManager() {
+        return new GameSessionManager();
     }
 
 }

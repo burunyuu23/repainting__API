@@ -57,7 +57,7 @@ public class GameWrapper {
     @Override
     public String toString() {
         getMap();
-        return String.format("<div>STATUS: %s, maxRound: %d, fieldSize: %d</div> <div>%s</div>",
+        return String.format("STATUS: %s, maxRound: %d, fieldSize: %d map:%s",
                 gameStatus, maxRounds, fieldSize, game.invoke("__str__").toString());
     }
 

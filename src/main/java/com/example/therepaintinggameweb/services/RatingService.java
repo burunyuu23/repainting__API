@@ -10,29 +10,29 @@ import org.springframework.stereotype.Service;
 public class RatingService {
     private final ModelMapper modelMapper;
 
-    public UserRatingResponseDTO userRating() {
-        return null;
-
-
-    }
-
-    public RepaintGameAllRatingsResponseDTO allRating() {
-        return null;
-
-
-    }
-
-    public WinResponseDTO winGame() {
-        return null;
-
-
-    }
-
-    public EndGameResponseDTO endGame() {
-        return null;
-    }
-
-    public UserGameStoryResponseDTO userGame() {
-        return null;
-    }
+//    public UserRatingResponseDTO userRating() {
+//        return null;
+//
+//
+//    }
+//
+//    public RepaintGameAllRatingsResponseDTO allRating() {
+//        return null;
+//
+//
+//    }
+//
+//    public WinResponseDTO winGame() {
+//        return null;
+//
+//
+//    }
+//
+//    public EndGameResponseDTO endGame() {
+//        return null;
+//    }
+//
+//    public UserGameStoryResponseDTO userGame() {
+//        return null;
+//    }
 }

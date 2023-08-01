@@ -17,6 +17,7 @@ public class UserUtils {
 
     public static String getCurrentUserId() {
         SecurityContext context = SecurityContextHolder.getContext();
+
         if (context.getAuthentication().getPrincipal() != "anonymousUser") {
             JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) context.getAuthentication();
             Jwt jwt = jwtAuthenticationToken.getToken();

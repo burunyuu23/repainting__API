@@ -12,6 +12,7 @@ import com.example.therepaintinggameweb.logic.GameStatus;
 import com.example.therepaintinggameweb.logic.GameWrapper;
 import com.example.therepaintinggameweb.logic.GameWrapperFactory;
 import com.example.therepaintinggameweb.repos.*;
+import com.example.therepaintinggameweb.utils.GameSessionManager;
 import com.example.therepaintinggameweb.utils.UserUtils;
 import com.nimbusds.jose.shaded.gson.Gson;
 import org.modelmapper.ModelMapper;
@@ -30,8 +31,8 @@ public class RatingGameService extends GameService{
     private final RatingGameStoryRepo gameStoryRepo;
     private final RatingGameRepo gameRepo;
 
-    public RatingGameService(PalettesRepo palettesRepo, ModelMapper modelMapper, Gson gson, GameWrapperFactory gameWrapperFactory, ConcurrentHashMap<String, GameWrapper> gameWrapperList, UserRepo userRepo, RatingGameStoryRepo gameStoryRepo, RatingGameRepo gameRepo) {
-        super(palettesRepo, modelMapper, gson, gameWrapperFactory, gameWrapperList, userRepo);
+    public RatingGameService(PalettesRepo palettesRepo, ModelMapper modelMapper, Gson gson, GameWrapperFactory gameWrapperFactory, GameSessionManager gameSessionManager, UserRepo userRepo, RatingGameStoryRepo gameStoryRepo, RatingGameRepo gameRepo) {
+        super(palettesRepo, modelMapper, gson, gameWrapperFactory, gameSessionManager, userRepo);
         this.gameStoryRepo = gameStoryRepo;
         this.gameRepo = gameRepo;
     }
@@ -43,7 +44,8 @@ public class RatingGameService extends GameService{
         GameWrapper gameWrapper = gameWrapperFactory.createGameWrapper(palettes);
 
         String gameId = UUID.randomUUID().toString();
-        gameWrapperList.put(gameId, gameWrapper);
+
+        gameSessionManager.startNewSession(gameId, gameWrapper);
 
         gameSave(gameId, gameWrapper, gameStartRequestDTO);
 

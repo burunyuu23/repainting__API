@@ -12,6 +12,7 @@ import com.example.therepaintinggameweb.repos.NonRatingGameRepo;
 import com.example.therepaintinggameweb.repos.NonRatingGameStoryRepo;
 import com.example.therepaintinggameweb.repos.PalettesRepo;
 import com.example.therepaintinggameweb.repos.UserRepo;
+import com.example.therepaintinggameweb.utils.GameSessionManager;
 import com.example.therepaintinggameweb.utils.UserUtils;
 import com.nimbusds.jose.shaded.gson.Gson;
 import org.modelmapper.ModelMapper;
@@ -25,8 +26,8 @@ public class NonRatingGameService extends GameService {
     private final NonRatingGameStoryRepo nonRatingGameStoryRepo;
     private final NonRatingGameRepo nonRatingGameRepo;
 
-    public NonRatingGameService(PalettesRepo palettesRepo, ModelMapper modelMapper, Gson gson, GameWrapperFactory gameWrapperFactory, ConcurrentHashMap<String, GameWrapper> gameWrapperList, UserRepo userRepo, NonRatingGameStoryRepo nonRatingGameStoryRepo, NonRatingGameRepo nonRatingGameRepo) {
-        super(palettesRepo, modelMapper, gson, gameWrapperFactory, gameWrapperList, userRepo);
+    public NonRatingGameService(PalettesRepo palettesRepo, ModelMapper modelMapper, Gson gson, GameWrapperFactory gameWrapperFactory, GameSessionManager gameSessionManager, UserRepo userRepo, NonRatingGameStoryRepo nonRatingGameStoryRepo, NonRatingGameRepo nonRatingGameRepo) {
+        super(palettesRepo, modelMapper, gson, gameWrapperFactory, gameSessionManager, userRepo);
         this.nonRatingGameStoryRepo = nonRatingGameStoryRepo;
         this.nonRatingGameRepo = nonRatingGameRepo;
     }
@@ -47,6 +48,8 @@ public class NonRatingGameService extends GameService {
                 .orElse(palettesRepo.findById(0L).orElse(null)));
         nonRatingGame.setEnd(false);
         nonRatingGameRepo.save(nonRatingGame);
+
+        System.out.println(UserUtils.isGuest());
 
         return nonRatingGame;
     }

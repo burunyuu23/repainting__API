@@ -42,3 +42,13 @@ springdoc:
     path: /swagger-ui.html
   api-docs:
     path: /api-docs
+
+logging:
+  level:
+    com:
+      example:
+        therepaintinggameweb:
+          - DEBUG
+          - INFO
+  file:
+    name: logs/repaint.log
