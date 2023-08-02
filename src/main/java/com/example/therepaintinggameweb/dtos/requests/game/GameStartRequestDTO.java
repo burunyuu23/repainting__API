@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class GameStartRequestDTO {
-    private Long paletteId;
-    private Long fieldSize;
-    private Long maxRounds;
+    private Long paletteId = 0L;
+    private Long fieldSize = 12L;
+    private Long maxRounds = 22L;
 }

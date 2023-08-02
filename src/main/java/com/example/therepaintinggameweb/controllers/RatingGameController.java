@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/rating-game")
 @Data
 @Tag(name = "Rating game", description = "Play game logic for rating earnings")
