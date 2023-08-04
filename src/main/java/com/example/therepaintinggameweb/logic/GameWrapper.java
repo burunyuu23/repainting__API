@@ -16,6 +16,8 @@ public class GameWrapper {
     private final int maxRounds;
     private final int fieldSize;
     private int currentRound;
+    private int[] colorsCount;
+    private int capturedCount;
 
     public CellWrapper[][] getMap() {
         CellWrapper[][] map = new CellWrapper[this.fieldSize][this.fieldSize];
@@ -31,6 +33,22 @@ public class GameWrapper {
             }
         }
         return map;
+    }
+
+    public int[] getColorsCount() {
+        PyObject colorsCountPy = game.__getattr__("colors_count");
+        for (int i = 0; i < colorsCountPy.__len__(); i++) {
+            Integer colorCount = (Integer) colorsCountPy.__getitem__(i).__tojava__(Integer.class);
+            colorsCount[i] = colorCount;
+        }
+
+        return colorsCount;
+    }
+
+    public int getCapturedCount() {
+        capturedCount = Integer.parseInt(game.__getattr__("captured_count").toString());
+
+        return capturedCount;
     }
 
     public void step(int colorId) {
@@ -50,6 +68,8 @@ public class GameWrapper {
     }
 
     public void updateState() {
+        this.getColorsCount();
+        this.getCapturedCount();
         this.setGameStatus(GameStatus.getStatus(Integer.parseInt(game.__getattr__("status").toString())));
         this.setCurrentRound(Integer.parseInt(game.__getattr__("round").toString()));
     }

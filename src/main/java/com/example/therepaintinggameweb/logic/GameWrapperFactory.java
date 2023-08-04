@@ -51,12 +51,21 @@ public class GameWrapperFactory {
                 colors[i] = new Color(id, hexColor);
             }
 
+            int[] colorsCount = new int[colors.length];
+            PyObject colorsCountPy = game.__getattr__("colors_count");
+            for (int i = 0; i < colorsCountPy.__len__(); i++) {
+                Integer colorCount = (Integer) colorsCountPy.__getitem__(i).__tojava__(Integer.class);
+                colorsCount[i] = colorCount;
+            }
+
             return new GameWrapper(game,
                     colors,
                     GameStatus.getStatus(Integer.parseInt(game.__getattr__("status").toString())),
                     Integer.parseInt(gameClass.__getattr__("MAX_ROUNDS").toString()),
                     Integer.parseInt(gameClass.__getattr__("FIELD_SIZE").toString()),
-                    Integer.parseInt(game.__getattr__("round").toString())
+                    Integer.parseInt(game.__getattr__("round").toString()),
+                    colorsCount,
+                    Integer.parseInt(game.__getattr__("captured_count").toString())
             );
         } catch (IOException e) {
             throw new RuntimeException(e);

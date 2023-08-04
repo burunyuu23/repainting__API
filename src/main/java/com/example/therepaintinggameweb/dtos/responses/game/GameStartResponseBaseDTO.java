@@ -17,6 +17,8 @@ public abstract class GameStartResponseBaseDTO {
     protected long fieldSize = 12;
     @Getter(value = AccessLevel.PROTECTED)
     protected LocalDateTime startTime;
+    protected int[] colorsCount;
+    protected int capturedCount;
 
     public GameStartResponseBaseDTO() {
         this.startTime = LocalDateTime.now();

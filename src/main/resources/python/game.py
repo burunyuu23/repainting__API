@@ -47,6 +47,10 @@ class Game:
         self.main_cell.captured(self.main_cell.value)
         self.status = Game.STATUS["PLAYING"]
         self.round = 0
+        self.colors_count = [0 for i in Game.COLORS]
+        self.captured_count = 0
+
+        self.check_map()
 
         self.best = 23
         self.best_text = '∞'
@@ -54,6 +58,8 @@ class Game:
     def step(self, num):
         if not self.color_repeated(num) and self.status == Game.STATUS["PLAYING"]:
             self.map[0][0].change_value(num)
+
+            self.colors_count = [0 for i in Game.COLORS]
             self.map = self.map_capture()
             self.round += 1
             # self.status = Game.STATUS["WON"]
@@ -128,12 +134,19 @@ class Game:
         return old_map
 
     def check_map(self):
+        win = True
+        self.captured_count = 0
+
         main_cell = self.map[0][0]
         for line in self.map:
             for cell in line:
+                self.colors_count[cell.value] += 1
                 if cell.value != main_cell.value:
-                    return False
-        return True
+                    win = False
+                if cell.is_captured:
+                    self.captured_count += 1
+
+        return win
 
     def __repr__(self):
        return self.__str__()
