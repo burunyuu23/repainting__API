@@ -51,7 +51,7 @@ public abstract class GameService {
 
     public GameStartResponseDTO startGame(GameStartRequestDTO gameStartRequestDTO) {
 
-        if (gameStartRequestDTO.getMaxRounds() < 1 || gameStartRequestDTO.getFieldSize() < 2)
+        if (gameStartRequestDTO.getMaxRounds() < 1 || gameStartRequestDTO.getFieldSize() < 2 || gameStartRequestDTO.getFieldSize() > 30)
             throw new BadGameParamsException();
 
         Color[] palettes = palettesSetup(gameStartRequestDTO.getPaletteId());

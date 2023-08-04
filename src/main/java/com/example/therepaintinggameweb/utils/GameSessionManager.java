@@ -23,12 +23,8 @@ public class GameSessionManager {
 
         // Запланировать задачу на удаление сессии через sessionTimeout миллисекунд
         ScheduledFuture<?> removalTask = scheduler.schedule(() -> removeSession(sessionId), sessionTimeout, TimeUnit.MILLISECONDS);
-        System.out.println(removalTask);
 
         sessions.put(sessionId, new GameSession(session, removalTask));
-
-        logger.debug(sessions.toString());
-        logger.info(sessions.toString());
     }
 
     public void restartSession(String sessionId) {

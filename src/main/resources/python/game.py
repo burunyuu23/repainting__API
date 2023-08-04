@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
+import sys
+import threading
 
 
 class Game:
@@ -54,6 +56,9 @@ class Game:
 
         self.best = 23
         self.best_text = '∞'
+
+        threading.stack_size(2**26)
+        sys.setrecursionlimit(10**6)
 
     def step(self, num):
         if not self.color_repeated(num) and self.status == Game.STATUS["PLAYING"]:
