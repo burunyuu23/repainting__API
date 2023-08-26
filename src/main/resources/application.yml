@@ -30,7 +30,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5436/rating_db?stringtype=unspecified
+    url: jdbc:postgresql://localhost:5436/repaint_game_db?stringtype=unspecified
     username: dnlkk
     password: dnlkkpass
   jpa:
