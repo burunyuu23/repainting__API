@@ -31,7 +31,6 @@ public class UserUtils {
         if (userRepo.findById(UserUtils.getCurrentUserId()).isEmpty()) {
             user = new User();
             user.setUserId(UserUtils.getCurrentUserId());
-            user.setImageUrl("https://i.ibb.co/w04Prt6/c1f64245afb2.gif");
         } else {
             user = userRepo.findById(UserUtils.getCurrentUserId()).get();
         }
