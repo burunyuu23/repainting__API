@@ -45,9 +45,9 @@ public class RatingGameService extends GameService{
 
         String gameId = UUID.randomUUID().toString();
 
-        gameSessionManager.startNewSession(gameId, gameWrapper);
 
-        gameSave(gameId, gameWrapper, gameStartRequestDTO);
+        Game game = gameSave(gameId, gameWrapper, gameStartRequestDTO);
+        gameSessionManager.startNewSession(gameId, gameId, gameWrapper);
 
         GameStartResponseDTO gameStartResponseDTO = modelMapper.map(gameWrapper, GameStartResponseDTO.class);
         gameStartResponseDTO.setGameId(gameId);
@@ -67,7 +67,7 @@ public class RatingGameService extends GameService{
         ratingGame.setPalettes(palettesRepo.findById(gameStartRequestDTO
                         .getPaletteId())
                 .orElse(palettesRepo.findById(0L).orElse(null)));
-        ratingGame.setEnd(false);
+        ratingGame.setEnd(gameWrapper.getGameStatus() != GameStatus.PLAYING);
         gameRepo.save(ratingGame);
 
         return ratingGame;

@@ -1,4 +1,5 @@
 package com.example.therepaintinggameweb.utils;
+import com.example.therepaintinggameweb.dtos.requests.game.GameStartRequestDTO;
 import com.example.therepaintinggameweb.entities.Game;
 import com.example.therepaintinggameweb.logic.GameStatus;
 import com.example.therepaintinggameweb.logic.GameWrapper;
@@ -18,13 +19,16 @@ public class GameSessionManager {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public void startNewSession(String sessionId, GameWrapper session) {
+    public void startNewSession(String gameId, String sessionId, GameWrapper session) {
         long sessionTimeout = UserUtils.isGuest() ? sessionTimeoutNoAuth : sessionTimeoutAuth;
 
         // Запланировать задачу на удаление сессии через sessionTimeout миллисекунд
         ScheduledFuture<?> removalTask = scheduler.schedule(() -> removeSession(sessionId), sessionTimeout, TimeUnit.MILLISECONDS);
 
-        sessions.put(sessionId, new GameSession(session, removalTask));
+        sessions.put(sessionId, new GameSession(gameId, session, removalTask));
+
+        System.out.println(sessions);
+        logger.debug(sessions.toString());
     }
 
     public void restartSession(String sessionId) {
@@ -39,10 +43,10 @@ public class GameSessionManager {
         session.setRemovalTask(removalTask);
     }
 
-    public void removeSession(String sessionId) {
+    public GameSession removeSession(String sessionId) {
         GameSession gameSession = sessions.remove(sessionId);
-
         gameSession.getGameWrapper().setGameStatus(GameStatus.LOSE);
+        return gameSession;
     }
 
     public void endSession(String sessionId) {
@@ -54,6 +58,7 @@ public class GameSessionManager {
     @Data
     @AllArgsConstructor
     public class GameSession {
+        private String gameId;
         private final GameWrapper gameWrapper;
         private ScheduledFuture<?> removalTask;
     }

@@ -10,7 +10,6 @@ import org.python.core.PyType;
 @AllArgsConstructor
 public class GameWrapper {
     private final PyObject game;
-
     private final Color[] colors;
     private GameStatus gameStatus;
     private final int maxRounds;

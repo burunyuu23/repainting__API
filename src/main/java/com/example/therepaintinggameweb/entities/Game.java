@@ -7,30 +7,30 @@ import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Game {
-
     @Id
     @Column(name = "game_id")
-    private String gameId;
+    protected String gameId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private User user;
+    protected User user;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "palettes_id")
-    private Palettes palettes;
+    protected Palettes palettes;
 
     @Column(name = "map", columnDefinition = "::json")
-    private String map;
+    protected String map;
 
     @Column(name = "is_end")
-    private boolean isEnd;
+    protected boolean isEnd;
     @Column(name = "is_win")
-    private Boolean isWin;
+    protected Boolean isWin;
 
     @Column(name = "start_time")
-    private LocalDateTime startTime;
+    protected LocalDateTime startTime;
 
     @PrePersist
     public void prePersist() {

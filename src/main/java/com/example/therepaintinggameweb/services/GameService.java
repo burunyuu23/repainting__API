@@ -61,10 +61,18 @@ public abstract class GameService {
 
         String gameId = UUID.randomUUID().toString();
 
-        gameSessionManager.startNewSession(gameId, gameWrapper);
-
-        if (!UserUtils.isGuest())
-            gameSave(gameId, gameWrapper, gameStartRequestDTO);
+        if (!UserUtils.isGuest()) {
+            Game game = gameSave(gameId, gameWrapper, gameStartRequestDTO);
+            String userId = UserUtils.getCurrentUserId();
+            if (gameSessionManager.getSessions().containsKey(userId)) {
+                GameSessionManager.GameSession gameSession = gameSessionManager.removeSession(userId);
+                Game oldGame = checkGameExist(gameSession.getGameId());
+                endGame(gameSession.getGameWrapper(), oldGame);
+            };
+            gameSessionManager.startNewSession(gameId, userId, gameWrapper);
+        } else {
+            gameSessionManager.startNewSession(gameId, gameId, gameWrapper);
+        }
 
         GameStartResponseDTO gameStartResponseDTO = modelMapper.map(gameWrapper, GameStartResponseDTO.class);
         gameStartResponseDTO.setGameId(gameId);
@@ -87,8 +95,18 @@ public abstract class GameService {
         GameWrapper gameWrapper;
 
         try {
-            gameSessionManager.restartSession(gameId);
-            gameWrapper = gameSessionManager.getSessions().get(gameId).getGameWrapper();
+            if (!UserUtils.isGuest()) {
+                String userId = UserUtils.getCurrentUserId();
+                gameSessionManager.restartSession(userId);
+                GameSessionManager.GameSession gameSession = gameSessionManager.getSessions().get(userId);
+                gameWrapper = gameSession.getGameWrapper();
+                gameSessionManager.startNewSession(gameId, userId, gameWrapper);
+            } else {
+                gameSessionManager.restartSession(gameId);
+                GameSessionManager.GameSession gameSession = gameSessionManager.getSessions().get(gameId);
+                gameWrapper = gameSession.getGameWrapper();
+                gameSessionManager.startNewSession(gameId, gameId, gameWrapper);
+            }
         } catch (Exception e) {
             throw new GameIsEndException();
         }
@@ -105,7 +123,12 @@ public abstract class GameService {
         gameStepResponseDTO.setEnd(gameWrapper.getGameStatus() != GameStatus.PLAYING);
 
         if (gameWrapper.getGameStatus() != GameStatus.PLAYING) {
-            gameSessionManager.endSession(gameId);
+            if (!UserUtils.isGuest()) {
+                String userId = UserUtils.getCurrentUserId();
+                gameSessionManager.endSession(userId);
+            } else {
+                gameSessionManager.endSession(gameId);
+            }
         }
 
         if (!UserUtils.isGuest()) {

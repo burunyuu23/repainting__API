@@ -32,7 +32,6 @@ public class NonRatingGameService extends GameService {
         this.nonRatingGameRepo = nonRatingGameRepo;
     }
 
-
     @Override
     protected Game gameSave(String gameId, GameWrapper gameWrapper, GameStartRequestDTO gameStartRequestDTO) {
         User user = UserUtils.addAndGetCurrentUser();
@@ -46,7 +45,7 @@ public class NonRatingGameService extends GameService {
         nonRatingGame.setPalettes(palettesRepo.findById(gameStartRequestDTO
                         .getPaletteId())
                 .orElse(palettesRepo.findById(0L).orElse(null)));
-        nonRatingGame.setEnd(false);
+        nonRatingGame.setEnd(gameWrapper.getGameStatus() != GameStatus.PLAYING);
         nonRatingGameRepo.save(nonRatingGame);
 
         return nonRatingGame;

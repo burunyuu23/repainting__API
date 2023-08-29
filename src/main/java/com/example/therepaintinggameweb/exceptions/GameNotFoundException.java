@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class GameNotFoundException extends AppException{
     public GameNotFoundException() {
-        super("Game with current userID not found", HttpStatus.NOT_FOUND);
+        super("Game with current gameID not found", HttpStatus.NOT_FOUND);
     }
 }
