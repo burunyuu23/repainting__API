@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashMap;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,7 +52,7 @@ public abstract class GameService {
 
     public GameStartResponseDTO startGame(GameStartRequestDTO gameStartRequestDTO) {
 
-        if (gameStartRequestDTO.getMaxRounds() < 1 || gameStartRequestDTO.getFieldSize() < 2 || gameStartRequestDTO.getFieldSize() > 30)
+        if (gameStartRequestDTO.getMaxRounds() < 1 || gameStartRequestDTO.getFieldSize() < 2 || gameStartRequestDTO.getFieldSize() > 101)
             throw new BadGameParamsException();
 
         Color[] palettes = palettesSetup(gameStartRequestDTO.getPaletteId());
@@ -97,9 +98,12 @@ public abstract class GameService {
         try {
             if (!UserUtils.isGuest()) {
                 String userId = UserUtils.getCurrentUserId();
-                gameSessionManager.restartSession(userId);
                 GameSessionManager.GameSession gameSession = gameSessionManager.getSessions().get(userId);
                 gameWrapper = gameSession.getGameWrapper();
+                if (Objects.equals(gameSession.getGameId(), gameId))
+                    gameSessionManager.restartSession(userId);
+                else
+                    throw new GameIsEndException();
             } else {
                 gameSessionManager.restartSession(gameId);
                 GameSessionManager.GameSession gameSession = gameSessionManager.getSessions().get(gameId);
