@@ -2,7 +2,7 @@
 import random
 import sys
 import threading
-
+from collections import deque
 
 class Game:
     MAX_ROUNDS = 22
@@ -102,13 +102,16 @@ class Game:
         max_i = len(old_map)
         max_j = len(old_map[0])
 
+        check_queue = deque()
+        check_queue.append([0, 0])
+
         def check(m, k, target):
             return (old_map[m][k].is_captured is True or old_map[m][k].value == target) and reached_map[m][k] is False
 
         def check_brother(i, j, value):
             if check(i, j, value):
                 old_map[i][j].captured(value)
-                i_check(i, j)
+                check_queue.append([i, j])
 
         def j_check(x, y, num):
             if y == 0:
@@ -134,7 +137,9 @@ class Game:
 
                 j_check(i, j, value)
 
-        i_check(0, 0)
+        while check_queue:
+            element = check_queue.pop()
+            i_check(element[0], element[1])
 
         return old_map
 
