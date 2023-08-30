@@ -100,12 +100,10 @@ public abstract class GameService {
                 gameSessionManager.restartSession(userId);
                 GameSessionManager.GameSession gameSession = gameSessionManager.getSessions().get(userId);
                 gameWrapper = gameSession.getGameWrapper();
-                gameSessionManager.startNewSession(gameId, userId, gameWrapper);
             } else {
                 gameSessionManager.restartSession(gameId);
                 GameSessionManager.GameSession gameSession = gameSessionManager.getSessions().get(gameId);
                 gameWrapper = gameSession.getGameWrapper();
-                gameSessionManager.startNewSession(gameId, gameId, gameWrapper);
             }
         } catch (Exception e) {
             throw new GameIsEndException();
