@@ -41,7 +41,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
-                                .requestMatchers("/no-auth/**", "/swagger-ui/**", "/api-docs/**", "/palette/**").permitAll()
+                                .requestMatchers("/game/user/**","/no-auth/**", "/swagger-ui/**", "/api-docs/**", "/palette/**").permitAll()
                                 .anyRequest()
                                 .authenticated());
 

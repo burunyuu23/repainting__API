@@ -1,10 +1,9 @@
 package com.example.therepaintinggameweb.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import java.util.List;
 @Table(name = "non_rating_game")
 @Data
 public class NonRatingGame extends Game {
+    @JsonIgnore
     @OneToMany(
             mappedBy = "game",
             cascade = CascadeType.ALL,

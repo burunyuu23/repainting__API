@@ -23,11 +23,10 @@ import org.apache.tomcat.util.json.ParseException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
-import java.util.LinkedHashMap;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 public abstract class GameService {
@@ -149,6 +148,8 @@ public abstract class GameService {
     protected abstract GameStory gameStorySave(Game game, String gameId, GameWrapper gameWrapper, GameStepRequestDTO gameStepRequestDTO);
 
     protected abstract void endGame(GameWrapper gameWrapper, Game game);
+
+    protected abstract Page<Game> userGames(PageRequest pageRequest, String userId);
 
     protected Color[] palettesSetup(Long paletteId) {
         Color[] palettes = null;

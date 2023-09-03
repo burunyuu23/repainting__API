@@ -1,6 +1,4 @@
 package com.example.therepaintinggameweb.utils;
-import com.example.therepaintinggameweb.dtos.requests.game.GameStartRequestDTO;
-import com.example.therepaintinggameweb.entities.Game;
 import com.example.therepaintinggameweb.logic.GameStatus;
 import com.example.therepaintinggameweb.logic.GameWrapper;
 import lombok.AllArgsConstructor;
@@ -27,7 +25,6 @@ public class GameSessionManager {
 
         sessions.put(sessionId, new GameSession(gameId, session, removalTask));
 
-        System.out.println(sessions);
         logger.debug(sessions.toString());
     }
 

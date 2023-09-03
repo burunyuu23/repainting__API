@@ -16,10 +16,11 @@ import com.example.therepaintinggameweb.utils.GameSessionManager;
 import com.example.therepaintinggameweb.utils.UserUtils;
 import com.nimbusds.jose.shaded.gson.Gson;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class NonRatingGameService extends GameService {
@@ -49,6 +50,11 @@ public class NonRatingGameService extends GameService {
         nonRatingGameRepo.save(nonRatingGame);
 
         return nonRatingGame;
+    }
+
+    @Override
+    public Page<Game> userGames(PageRequest pageRequest, String userId) {
+        return nonRatingGameRepo.findAllByUserUserId(pageRequest, userId);
     }
 
     public NonRatingGameResponseDTO resultGame(String gameId) {

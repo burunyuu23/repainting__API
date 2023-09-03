@@ -16,13 +16,14 @@ import com.example.therepaintinggameweb.utils.GameSessionManager;
 import com.example.therepaintinggameweb.utils.UserUtils;
 import com.nimbusds.jose.shaded.gson.Gson;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static java.lang.Math.*;
 
@@ -169,5 +170,10 @@ public class RatingGameService extends GameService{
         ratingGame.setRating(prevRating + gameStoryRepo.sumRatingByGameId(game.getGameId()) + additionalRating);
 
         gameRepo.save(ratingGame);
+    }
+
+    @Override
+    protected Page<Game> userGames(PageRequest pageRequest, String userId) {
+        return null;
     }
 }
