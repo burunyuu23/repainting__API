@@ -1,18 +1,18 @@
 server:
-  url: "http://localhost"
+  url: "${SERVER_URL:http://localhost}"
   port: 5000
   servlet:
     context-path: /api/repaint-game
 
 frontend:
-  url: "http://localhost:3000"
+  url: "${FRONTEND_URL:http://localhost:3000}"
 
 python:
   game-path: python/game.py
 
 keycloak:
   port : 8282
-  url: "${server.url}:${keycloak.port}"
+  url: "${KEYCLOAK_URL:${server.url}:${keycloak.port}}"
   realm: "repaintinggame"
   jwt:
     auth:
@@ -30,9 +30,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5436/repaint_game_db?stringtype=unspecified
-    username: dnlkk
-    password: dnlkkpass
+    url: "${POSTGRESQL_REPAINT_GAME_URI:jdbc:postgresql://localhost:5436/repaint_game_db?stringtype=unspecified}"
+    username: "${POSTGRESQL_REPAINT_GAME_USER:dnlkk}"
+    password: "${POSTGRESQL_REPAINT_GAME_PASS:dnlkkpass}"
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect

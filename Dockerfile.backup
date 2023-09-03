@@ -1,0 +1,20 @@
+FROM openjdk:20-slim
+
+VOLUME /tmp
+# Установка переменной окружения, указывающей на директорию приложения внутри контейнера
+ENV APP_HOME /app
+
+# Создаем директорию приложения внутри контейнера
+RUN mkdir $APP_HOME
+
+# Устанавливаем рабочую директорию
+WORKDIR $APP_HOME
+
+RUN apt-get update; \
+    apt-get install -y curl python2.7 python-dev;
+
+# Копируем JAR-файл приложения из сборки Maven в контейнер
+COPY target/*.jar $APP_HOME/app.jar
+
+# Указываем команду, которая будет запущена при старте контейнера
+CMD ["java", "-jar", "app.jar"]
