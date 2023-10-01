@@ -2,6 +2,7 @@ package com.example.therepaintinggameweb.services;
 
 import com.example.therepaintinggameweb.dtos.requests.GameStepRequestDTO;
 import com.example.therepaintinggameweb.dtos.requests.game.GameStartRequestDTO;
+import com.example.therepaintinggameweb.dtos.responses.game.GamesHistoryResponseDTO;
 import com.example.therepaintinggameweb.entities.*;
 import com.example.therepaintinggameweb.logic.GameWrapper;
 import com.example.therepaintinggameweb.logic.GameWrapperFactory;
@@ -30,7 +31,7 @@ public class NonRatingGameNonAuthService extends GameService{
     }
 
     @Override
-    protected Page<Game> userGames(PageRequest pageRequest, String userId) {
+    protected Page<GamesHistoryResponseDTO<Game>> userGames(PageRequest pageRequest, String userId) {
         return null;
     }
 

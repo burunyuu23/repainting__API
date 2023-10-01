@@ -173,7 +173,7 @@ public class RatingGameService extends GameService{
     }
 
     @Override
-    protected Page<Game> userGames(PageRequest pageRequest, String userId) {
+    protected Page<GamesHistoryResponseDTO<Game>> userGames(PageRequest pageRequest, String userId) {
         return null;
     }
 }

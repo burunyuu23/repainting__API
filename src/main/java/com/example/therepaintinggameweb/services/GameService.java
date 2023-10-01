@@ -4,6 +4,7 @@ import com.example.therepaintinggameweb.dtos.requests.GameStepRequestDTO;
 import com.example.therepaintinggameweb.dtos.requests.game.GameStartRequestDTO;
 import com.example.therepaintinggameweb.dtos.responses.game.GameStartResponseDTO;
 import com.example.therepaintinggameweb.dtos.responses.game.GameStepResponseDTO;
+import com.example.therepaintinggameweb.dtos.responses.game.GamesHistoryResponseDTO;
 import com.example.therepaintinggameweb.entities.Game;
 import com.example.therepaintinggameweb.entities.GameStory;
 import com.example.therepaintinggameweb.entities.Palettes;
@@ -149,7 +150,7 @@ public abstract class GameService {
 
     protected abstract void endGame(GameWrapper gameWrapper, Game game);
 
-    protected abstract Page<Game> userGames(PageRequest pageRequest, String userId);
+    protected abstract Page<GamesHistoryResponseDTO<Game>> userGames(PageRequest pageRequest, String userId);
 
     protected Color[] palettesSetup(Long paletteId) {
         Color[] palettes = null;

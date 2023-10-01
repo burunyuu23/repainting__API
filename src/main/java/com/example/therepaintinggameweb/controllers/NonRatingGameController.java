@@ -4,6 +4,7 @@ import com.example.therepaintinggameweb.dtos.requests.GameStepRequestDTO;
 import com.example.therepaintinggameweb.dtos.requests.game.GameStartRequestDTO;
 import com.example.therepaintinggameweb.dtos.responses.game.GameStartResponseDTO;
 import com.example.therepaintinggameweb.dtos.responses.game.GameStepResponseDTO;
+import com.example.therepaintinggameweb.dtos.responses.game.GamesHistoryResponseDTO;
 import com.example.therepaintinggameweb.dtos.responses.game.NonRatingGameResponseDTO;
 import com.example.therepaintinggameweb.entities.Game;
 import com.example.therepaintinggameweb.services.NonRatingGameService;
@@ -73,7 +74,7 @@ public class NonRatingGameController {
             content = @Content(
                     schema = @Schema(
                             implementation = NonRatingGameResponseDTO.class)))
-    public Page<Game> userGames(@PathVariable String user_id,
+    public Page<GamesHistoryResponseDTO<Game>> userGames(@PathVariable String user_id,
                                 @RequestParam(value = "offset", defaultValue = "0") @Min(0) Integer offset,
                                 @RequestParam(value = "limit", defaultValue = "10") @Min(1) @Max(100) Integer limit,
                                 @RequestParam(value = "sort", defaultValue = "startTime") String sortField) {

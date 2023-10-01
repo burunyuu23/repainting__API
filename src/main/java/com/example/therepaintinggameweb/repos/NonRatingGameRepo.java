@@ -7,5 +7,5 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NonRatingGameRepo extends JpaRepository<NonRatingGame, String> {
-    Page<Game> findAllByUserUserId(PageRequest pageRequest, String userId);
+    Page<NonRatingGame> findAllByUserUserId(PageRequest pageRequest, String userId);
 }

@@ -2,6 +2,7 @@ package com.example.therepaintinggameweb.services;
 
 import com.example.therepaintinggameweb.dtos.requests.GameStepRequestDTO;
 import com.example.therepaintinggameweb.dtos.requests.game.GameStartRequestDTO;
+import com.example.therepaintinggameweb.dtos.responses.game.GamesHistoryResponseDTO;
 import com.example.therepaintinggameweb.dtos.responses.game.NonRatingGameResponseDTO;
 import com.example.therepaintinggameweb.entities.*;
 import com.example.therepaintinggameweb.exceptions.*;
@@ -53,8 +54,14 @@ public class NonRatingGameService extends GameService {
     }
 
     @Override
-    public Page<Game> userGames(PageRequest pageRequest, String userId) {
-        return nonRatingGameRepo.findAllByUserUserId(pageRequest, userId);
+    public Page<GamesHistoryResponseDTO<Game>> userGames(PageRequest pageRequest, String userId) {
+        Page<NonRatingGame> gamePage = nonRatingGameRepo.findAllByUserUserId(pageRequest, userId); 
+        return gamePage.map(game -> {
+            List<NonRatingGameStory> gameStories = game.getGameStories();
+            return new GamesHistoryResponseDTO<>(game, 
+                                    gameStories.isEmpty() ? 0 : gameStories.get(gameStories.size() - 1).getId().getRound(), 
+                                    gameStories.isEmpty() ? game.getStartTime() : gameStories.get(gameStories.size() - 1).getStepTime());
+        });
     }
 
     public NonRatingGameResponseDTO resultGame(String gameId) {
